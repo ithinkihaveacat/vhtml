@@ -24,15 +24,15 @@ export default function h(name, attrs) {
 		// return name(attrs, stack.reverse());
 	}
 
-	let s = `<${name}`;
-	if (attrs) for (let i in attrs) {
+	let s = name ? `<${name}` : '';
+	if (name && attrs) for (let i in attrs) {
 		if (attrs[i]!==false && attrs[i]!=null) {
 			s += ` ${DOMAttributeNames[i] ? DOMAttributeNames[i] : esc(i)}="${esc(attrs[i])}"`;
 		}
 	}
 
-	if (emptyTags.indexOf(name) === -1) {
-		s += '>';
+	if ((emptyTags.indexOf(name) === -1)) {
+		s += name ? '>' : '';
 
 		while (stack.length) {
 			let child = stack.pop();
@@ -46,9 +46,9 @@ export default function h(name, attrs) {
 			}
 		}
 
-		s += `</${name}>`;
+		s += name ? `</${name}>` : '';
 	} else {
-		s += '>';
+		s += name ? '>' : '';
 	}
 
 	sanitized[s] = true;
