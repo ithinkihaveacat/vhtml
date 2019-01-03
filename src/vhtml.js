@@ -31,7 +31,7 @@ export default function h(name, attrs) {
 		}
 	}
 
-	if ((emptyTags.indexOf(name) === -1)) {
+	if (emptyTags.indexOf(name) === -1) {
 		s += name ? '>' : '';
 
 		while (stack.length) {
