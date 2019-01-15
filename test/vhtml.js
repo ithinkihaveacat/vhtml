@@ -165,4 +165,12 @@ describe('vhtml', () => {
 			'<div class="my-class" for="id"></div>'
 		);
 	});
+
+	it('should special case <style>', () => {
+		expect(
+			<style>{`* { font-family: "A B C" }`}</style>
+		).to.equal(
+			'<style>* { font-family: "A B C" }</style>'
+		);
+	});
 });

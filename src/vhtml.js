@@ -41,7 +41,7 @@ export default function h(name, attrs) {
 					for (let i=child.length; i--; ) stack.push(child[i]);
 				}
 				else {
-					s += sanitized[child]===true ? child : esc(child);
+					s += sanitized[child]===true || name === 'style' ? child : esc(child);
 				}
 			}
 		}
