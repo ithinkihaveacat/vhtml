@@ -166,6 +166,8 @@ describe('vhtml', () => {
 		);
 	});
 
+	// Alternative is to support JSX's dangerouslySetInnerHtml
+	// https://reactjs.org/docs/dom-elements.html#dangerouslysetinnerhtml
 	it('should special case <style>', () => {
 		expect(
 			<style>{`* { font-family: "A B C" }`}</style>
