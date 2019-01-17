@@ -182,4 +182,19 @@ describe('vhtml', () => {
 		);
 	});
 
+	it('should support dangerouslySetInnerHTML', () => {
+		expect(
+			<div dangerouslySetInnerHTML={{__html: '<foo>&amp;</foo>'}}></div>
+		).to.equal(
+			'<div><foo>&amp;</foo></div>'
+		);
+	});
+
+	it('should support dangerouslySetInnerHTML (without __html)', () => {
+		expect(
+			<div dangerouslySetInnerHTML>foo</div>
+		).to.equal(
+			'<div></div>'
+		);
+	});
 });

@@ -24,26 +24,36 @@ export default function h(name, attrs) {
 		// return name(attrs, stack.reverse());
 	}
 
+	let innerHTML = null;
+
 	let s = name ? `<${name}` : '';
-	if (name && attrs) for (let i in attrs) {
+	if (attrs) for (let i in attrs) {
 		if (attrs[i]!==false && attrs[i]!=null) {
-			s += ` ${DOMAttributeNames[i] ? DOMAttributeNames[i] : esc(i)}="${esc(attrs[i])}"`;
+			if (i.toLowerCase() === 'dangerouslysetinnerhtml') {
+				innerHTML = attrs[i].__html ? attrs[i].__html : '';
+			} else {
+				s += ` ${DOMAttributeNames[i] ? DOMAttributeNames[i] : esc(i)}="${esc(attrs[i])}"`;
+			}
 		}
 	}
 
 	if (emptyTags.indexOf(name) === -1) {
 		s += name ? '>' : '';
 
-		while (stack.length) {
-			let child = stack.pop();
-			if (child) {
-				if (child.pop) {
-					for (let i=child.length; i--; ) stack.push(child[i]);
-				}
-				else {
-					s += sanitized[child]===true ? child : esc(child);
+		if (innerHTML === null) {
+			while (stack.length) {
+				let child = stack.pop();
+				if (child) {
+					if (child.pop) {
+						for (let i=child.length; i--; ) stack.push(child[i]);
+					}
+					else {
+						s += sanitized[child]===true ? child : esc(child);
+					}
 				}
 			}
+		} else {
+			s += innerHTML;
 		}
 
 		s += name ? `</${name}>` : '';
