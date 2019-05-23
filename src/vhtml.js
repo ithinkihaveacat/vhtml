@@ -13,7 +13,7 @@ let sanitized = {};
 
 /** Hyperscript reviver that constructs a sanitized HTML string. */
 export default function h(name, attrs) {
-	let stack=[], s = name ? `<${name}` : '';
+	let stack=[], s = '';
 	attrs = attrs || {};
 	for (let i=arguments.length; i-- > 2; ) {
 		stack.push(arguments[i]);
@@ -26,12 +26,15 @@ export default function h(name, attrs) {
 		// return name(attrs, stack.reverse());
 	}
 
-	if (name && attrs) for (let i in attrs) {
-		if (attrs[i]!==false && attrs[i]!=null && i !== setInnerHTMLAttr) {
-			s += ` ${DOMAttributeNames[i] ? DOMAttributeNames[i] : esc(i)}="${esc(attrs[i])}"`;
+	if (name) {
+		s += '<' + name;
+		if (attrs) for (let i in attrs) {
+			if (attrs[i]!==false && attrs[i]!=null && i !== setInnerHTMLAttr) {
+				s += ` ${DOMAttributeNames[i] ? DOMAttributeNames[i] : esc(i)}="${esc(attrs[i])}"`;
+			}
 		}
+		s += '>';
 	}
-	s += name ? '>' : '';
 
 	if (emptyTags.indexOf(name) === -1) {
 		if (attrs[setInnerHTMLAttr]) {
